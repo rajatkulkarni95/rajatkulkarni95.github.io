@@ -15,6 +15,20 @@ html {
     transform: translate(-50%,-50%);  
 }
 
+@media only screen and (max-width:500px) {
+    .container {
+        width: 300px;
+        top:40%;
+    }
+    h1 {
+        text-align: center;
+        margin: 50px;
+        font-size: 3.5rem;
+    }
+    div.change-theme {
+        display: none;
+    }
+}
 h1 {
     text-align: center;
     margin: 100px 0;
