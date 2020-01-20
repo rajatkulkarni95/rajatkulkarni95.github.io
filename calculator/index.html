@@ -10,11 +10,11 @@
 </head>
 
 <body>
+    <header class="calc-name">Calculator</header>
     <div class="container">
-        <h1>Calculator</h1>
+        <section class="memory">Memory</section>
         <div class="screen">0</div>
         <div class="calculator">
-
             <div class="calc-button-row">
                 <button class="calc-buttons double">Clear</button>
                 <button class="calc-buttons operator">&larr;</button>
@@ -43,10 +43,10 @@
                 <button class="calc-buttons operator">&equals;</button>
             </div>
         </div>
-        <div class="change-theme" onclick="modes()">
-            Day/Night
-        </div>
     </div>
+    <button class="change-theme" onclick="modes()">
+        Change Theme
+    </button>
     <script src="./logic.js"></script>
 </body>
 

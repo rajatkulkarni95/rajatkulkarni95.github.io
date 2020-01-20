@@ -1,8 +1,13 @@
 let runningTotal = 0;
 let buffer = "0";
 let previousOperator;
+let memoryText = '';
+let modeTracker = 0;
 
 const screen = document.querySelector(".screen");
+const memory = document.querySelector(".memory");
+const calc_buttons = document.querySelector('.calc-buttons');
+const header = document.querySelector('.calc-name');
 
 function buttonClick(value) {
     if (isNaN(value)) {
@@ -24,12 +29,13 @@ function handleNumber(numberString) {
     }
 }
 
+
 function handleMath(symbol) {
     if (buffer === "0") {
         //do nothing
         return;
     }
-
+    updateMemory(symbol);
     const intBuffer = parseInt(buffer);
 
     if (runningTotal === 0) {
@@ -59,6 +65,7 @@ function handleSymbol(symbol) {
         case "CLEAR":
             buffer = "0";
             runningTotal = 0;
+            memory.innerText = 'Cleared!'
             break;
 
         case "←":
@@ -72,6 +79,8 @@ function handleSymbol(symbol) {
             if (previousOperator === null) {
                 return;
             }
+            updateMemory('=');
+            memoryText = '';
             flushOperators(parseInt(buffer));
             previousOperator = null;
             buffer = +runningTotal;
@@ -89,6 +98,29 @@ function handleSymbol(symbol) {
 
 function rerender() {
     screen.innerText = buffer;
+}
+
+
+function updateMemory(operator) {
+    memoryText += buffer + '' + operator;
+    memory.innerText = memoryText;
+}
+
+function modes() {
+    if (modeTracker === 0) {
+        let element = document.body;
+        element.classList.toggle('lightmode');
+        screen.style.background = '#1c8dba';
+        memory.style.background = '#c4d113';
+        modeTracker = 1;
+    } else if (modeTracker === 1) {
+        let darkElement = document.body;
+        darkElement.classList.toggle('darkmode');
+        screen.style.backgroundColor = "#ff3333";
+        memory.style.background = 'teal';
+        modeTracker = 0;
+    }
+    console.log(modeTracker);
 }
 
 function init() {

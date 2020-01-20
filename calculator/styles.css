@@ -3,6 +3,9 @@
 html {
     box-sizing: border-box;
     font-size: 10px;
+}
+
+body {
     font-family: 'Oswald', sans-serif;
     background: #b3b3b3;
 }
@@ -10,29 +13,36 @@ html {
 .container {
     width:500px;
     position: absolute;
+    margin: 0 auto;
     left:50%;
-    top:35%;
+    top:50%;
     transform: translate(-50%,-50%);  
 }
 
 @media only screen and (max-width:500px) {
+    html {
+        overflow: hidden;
+    }
     .container {
         width: 300px;
-        top:40%;
+        top:55%;
     }
-    h1 {
+    .calc-name {
         text-align: center;
-        margin: 50px;
-        font-size: 3.5rem;
+        font-size: 3.8rem;
+        padding: 2px 0;
     }
-    div.change-theme {
-        display: none;
+    button.change-theme {
+        position: fixed;
+        bottom: 0;  
     }
 }
-h1 {
+.calc-name {
+    position: fixed;
+    width: 100%;
+    padding: 10px 0;
     text-align: center;
-    margin: 100px 0;
-    font-size: 4rem;
+    font-size: 5rem;
 }
 
 .screen {
@@ -43,15 +53,26 @@ h1 {
     padding: 5px;
 }
 
+.memory {
+    text-align: right;
+    line-height: 1.5;
+    font-size: 2rem;
+    background: teal;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
 .calculator {
     display: flex;
     flex-direction: column;
+
 }
 
 .calc-button-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background: #fff;
 }
 
 .calc-buttons {
@@ -85,16 +106,27 @@ h1 {
 
 .change-theme {
     position: absolute;
-    margin-top: 50px;
-    left: 30%; 
+    bottom: 5%;
+    left: 50%; 
+    transform: translate(-50%,-50%);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 30px;
     line-height: 30px;
     width: 200px;
-    background-image: linear-gradient(to right,azure,#434343);
+    background-image: linear-gradient(to right,#ADEFD1FF,#00203FFF);
     text-align: center;
     border-radius: 5px;
     font-size: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.5;
+}
+
+.lightmode {
+    background: #b6d6cb;
+}
+
+.darkmode {
+    background: #434343;
 }
