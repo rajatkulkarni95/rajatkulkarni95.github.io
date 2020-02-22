@@ -137,3 +137,15 @@ p.text {
 p.text span {
   color: #6feaf6;
 }
+
+#bronze-seats {
+  color: #cd853f;
+}
+
+#silver-seats {
+  color: #8a877f;
+}
+
+#gold-seats {
+  color: #edb10c;
+}
