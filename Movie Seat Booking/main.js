@@ -44,6 +44,7 @@ containerClass.addEventListener(
     var target = e.target;
     if (target.tagName == "IMG") {
       sessionStorage.setItem("title", target.alt);
+      sessionStorage.setItem("imageSrc", target.src);
     }
   },
   false

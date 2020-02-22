@@ -18,6 +18,9 @@ updateTicketPrice(baseTicketPrice);
 let title = sessionStorage.getItem("title");
 movieTitle.innerHTML = title;
 
+let moviePoster = sessionStorage.getItem("imageSrc");
+document.getElementById("movie-poster").src = moviePoster;
+
 //Selected Seats
 function updateSelectedCount() {
   let ticketPrice = 0;
