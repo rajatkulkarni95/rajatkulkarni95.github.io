@@ -1,6 +1,6 @@
 //Element Declarations
 const container = document.querySelector(".container");
-const seats = document.querySelectorAll(".seat");
+const seating = document.querySelector(".seating");
 const seat = document.querySelector(".seat");
 const total = document.querySelector("#total");
 const bronzePrice = document.querySelector("#bronze-price");
@@ -23,6 +23,7 @@ document.getElementById("movie-poster").src = moviePoster;
 
 //Selected Seats
 function updateSelectedCount() {
+  const seats = document.querySelectorAll(".seat");
   let ticketPrice = 0;
   const selectedSeats = document.querySelectorAll(".row .seat.selected");
   let bronzeSeats = 0,
@@ -66,8 +67,6 @@ function updateSelectedCount() {
     }
   }
 
-  console.log(bronzeSeats);
-
   total.innerHTML = ticketPrice;
 }
 
@@ -84,16 +83,55 @@ function updateTotal() {
 
 //Color Code Seats
 const colorCode = document.addEventListener("DOMContentLoaded", () => {
+  createSeating();
+  const seats = document.querySelectorAll(".seat");
   seats.forEach(value => {
-    if (value.parentElement.id.match("bronze-row")) {
+    if (value.parentElement.classList.contains("bronze-row")) {
       value.className += " bronze";
-    } else if (value.parentElement.id.match("silver-row")) {
+    } else if (value.parentElement.className.match("silver-row")) {
       value.className += " silver";
-    } else if (value.parentElement.id.match("gold-row")) {
+    } else if (value.parentElement.className.match("gold-row")) {
       value.className += " gold";
     }
   });
 });
+
+function createSeating() {
+  //Create Individual Seats
+  for (let rowCount = 0; rowCount < 7; rowCount++) {
+    var createRow = document.createElement("div");
+    createRow.className = "row";
+    if (rowCount < 2) {
+      createRow.className += " bronze-row";
+      createRow.id = rowCount;
+    } else if (rowCount < 5) {
+      createRow.className += " silver-row";
+      createRow.id = rowCount;
+    } else {
+      createRow.className += " gold-row";
+      createRow.id = rowCount;
+    }
+    //Spacing between Bronze, Silver and Gold Rows
+    if (rowCount == 2) {
+      var createBlankRow = document.createElement("div");
+      createBlankRow.className = "bronze-blank-row";
+      createBlankRow.innerHTML = "&nbsp;";
+      document.getElementById("seating").appendChild(createBlankRow);
+    } else if (rowCount == 5) {
+      var createBlankRow = document.createElement("div");
+      createBlankRow.className = "silver-blank-row";
+      createBlankRow.innerHTML = "&nbsp;";
+      document.getElementById("seating").appendChild(createBlankRow);
+    }
+
+    document.getElementById("seating").appendChild(createRow);
+    for (let seatCount = 0; seatCount < 8; seatCount++) {
+      var createSeat = document.createElement("div");
+      createSeat.className = "seat";
+      document.getElementById(rowCount).appendChild(createSeat);
+    }
+  }
+}
 
 /* //Change Option Event Listener
 movie.addEventListener("change", e => {
