@@ -12,9 +12,11 @@ const bronze_seats = document.getElementById("bronze-seats");
 const silver_seats = document.getElementById("silver-seats");
 const gold_seats = document.getElementById("gold-seats");
 
+//Random BaseTicket Price
 let baseTicketPrice = Math.floor(Math.random() * (13 - 8 + 1)) + 8;
 updateTicketPrice(baseTicketPrice);
 
+//Retrieve Title and Image Stored in Local Storage from index.html
 let title = sessionStorage.getItem("title");
 movieTitle.innerHTML = title;
 
@@ -31,6 +33,7 @@ function updateSelectedCount() {
     goldSeats = 0;
   const selectedSeatCount = selectedSeats.length;
 
+  //Different Pricing for Bronze,Silver or Gold Seats
   const seatIndex = [...selectedSeats].map(seat => [...seats].indexOf(seat));
   seatIndex.forEach(value => {
     if (value < 20) {
@@ -45,6 +48,7 @@ function updateSelectedCount() {
     }
   });
 
+  //Total Contains Breakdown of Seats (Bronze, Silver or Gold and Number)
   if (bronzeSeats !== 0) {
     bronze_seats.innerText = `${bronzeSeats} Bronze`;
   } else {
@@ -70,15 +74,11 @@ function updateSelectedCount() {
   total.innerHTML = ticketPrice;
 }
 
+//BaseTicket Price for Movie-Container
 function updateTicketPrice(baseTicketPrice) {
   bronzePrice.innerHTML = `($${baseTicketPrice})`;
   silverPrice.innerHTML = `($${Math.round(baseTicketPrice * 1.2)})`;
   goldPrice.innerHTML = `($${Math.round(baseTicketPrice * 1.5)})`;
-}
-
-function updateTotal() {
-  paraText.innerHTML = "Selected Seats:";
-  let list = paraText.createElement("ul");
 }
 
 //Color Code Seats
@@ -94,10 +94,11 @@ const colorCode = document.addEventListener("DOMContentLoaded", () => {
       value.className += " gold";
     }
   });
+  randomOccupiedSeats();
 });
 
 function createSeating() {
-  //Create Individual Seats
+  //Create Individual Rows
   for (let rowCount = 0; rowCount < 7; rowCount++) {
     var createRow = document.createElement("div");
     createRow.className = "row";
@@ -125,10 +126,26 @@ function createSeating() {
     }
 
     document.getElementById("seating").appendChild(createRow);
+    //Create Individual Seat in Rows
     for (let seatCount = 0; seatCount < 8; seatCount++) {
       var createSeat = document.createElement("div");
       createSeat.className = "seat";
+      createSeat.id = rowCount + "-" + seatCount;
       document.getElementById(rowCount).appendChild(createSeat);
+    }
+  }
+}
+
+//Select Random Seats to be occupied
+function randomOccupiedSeats() {
+  for (i = 0; i < 6; i++) {
+    let randomRow = Math.floor(Math.random() * (6 - 0 + 1)) + 0;
+    let randomSeat = Math.floor(Math.random() * (7 - 0 + 1)) + 0;
+    var randomOccupiedSeat = document.getElementById(
+      randomRow + "-" + randomSeat
+    );
+    if (!randomOccupiedSeat.classList.contains("occupied")) {
+      randomOccupiedSeat.className += " occupied";
     }
   }
 }
