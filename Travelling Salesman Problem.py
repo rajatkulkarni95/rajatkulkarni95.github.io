@@ -7,8 +7,14 @@ import pandas as pd
 import numpy as np
 from bingmaps.apiservices import LocationByAddress
 import time
+import os
 
 API_KEY = 'AkfOIX91dHKtVlhn8lNuxzN50wFIe6FjT_763t91zAkpYZwCJsrwEId1G-WGPYYU'
+
+
+def clear():
+    os.system('cls')
+
 
 number_of_locations = int(input('Enter Number of Locations'))
 
@@ -20,11 +26,28 @@ def list_of_locations(count):
         location = input('Enter Location: ')
         locations.append(location)
 
-    start_point_text = input('Enter Starting Point: ')
-    end_point_text = input('Enter End Point: ')
+    clear()
 
-    start_point = locations.index(start_point_text)
-    end_point = locations.index(end_point_text)
+    print(f'Choose Starting Point : ')
+    for x in range(len(locations)):
+        print(f' {x} . {locations[x]}')
+
+    start_point = int(input())
+    start_point_text = locations[start_point]
+
+    clear()
+    print(f'Starting Point : {start_point_text}')
+
+    print(f'Choose End Point : ')
+    for x in range(len(locations)):
+        print(f' {x} . {locations[x]}')
+
+    end_point = int(input())
+    end_point_text = locations[end_point]
+    clear()
+
+    print(f'Starting Point : {start_point_text}')
+    print(f'End Point : {end_point_text}')
 
     return (locations, start_point, end_point)
 
@@ -34,10 +57,10 @@ def call_api(locations, key):
     latitude_list = []
     longitude_list = []
     for locality in locations:
+        time.sleep(1)
         data = {'locality': locality,
                 'key': key}
         location_address = LocationByAddress(data)
-        time.sleep(2)
 
         coordinate_list = location_address.get_coordinates[0]
 
@@ -74,13 +97,15 @@ def create_data_model(distance_matrix, start, end):
     data['starts'] = [start]
     data['ends'] = [end]
     #data['depot'] = 0
+
     return data
 
 
-def print_solution(manager, routing, solution, locations):
+def print_result(manager, routing, solution, locations):
     """Prints solution on console."""
     index = routing.Start(0)
     plan_output = 'Optimal Vehicle Route :\n'
+    breakdown = 'Route Breakdown : \n'
     route_distance = 0
     while not routing.IsEnd(index):
         place = locations[manager.IndexToNode(index)]
@@ -89,11 +114,18 @@ def print_solution(manager, routing, solution, locations):
         index = solution.Value(routing.NextVar(index))
         route_distance += routing.GetArcCostForVehicle(
             previous_index, index, 0)
+        current_route_distance = routing.GetArcCostForVehicle(
+            previous_index, index, 0)
+
+        breakdown += '{} -> {} = {} Kilometers\n'.format(locations[manager.IndexToNode(
+            previous_index)], locations[manager.IndexToNode(index)], current_route_distance)
     place = locations[manager.IndexToNode(index)]
     plan_output += ' {}\n'.format(place)
-    print(plan_output)
     plan_output += 'Route distance: {} Kilometers\n'.format(route_distance)
-    print('Distance Travelled: {} Kilometers'.format(solution.ObjectiveValue()))
+
+    print(plan_output)
+    print(breakdown)
+    #print('Distance Travelled: {} Kilometers'.format(solution.ObjectiveValue()))
 
 
 def main():
@@ -122,7 +154,7 @@ def main():
         routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
     solution = routing.SolveWithParameters(search_parameters)
     if solution:
-        print_solution(manager, routing, solution, locations)
+        print_result(manager, routing, solution, locations)
 
 
 if __name__ == '__main__':
